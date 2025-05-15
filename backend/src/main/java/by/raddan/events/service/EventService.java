@@ -21,5 +21,6 @@ public interface EventService {
     TicketRequestResponseDto getRequestById(Long requestId);
     Page<TicketRequestResponseDto> listRequest(Pageable pageable);
     void deleteRequest(Long requestId);
+    void updateStatus(Long requestId, String status);
 
 }

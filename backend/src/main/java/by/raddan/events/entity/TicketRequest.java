@@ -43,4 +43,8 @@ public class TicketRequest {
     @Column(name = "requested_at", nullable = false, updatable = false)
     private LocalDateTime requestedAt = LocalDateTime.now();
 
+    @Builder.Default
+    @Column(name = "status", length = 255)
+    private String status = "PENDING";
+
 }

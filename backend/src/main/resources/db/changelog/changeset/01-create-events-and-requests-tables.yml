@@ -79,6 +79,9 @@ databaseChangeLog:
                   name: requested_at
                   type: TIMESTAMP
                   defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: status
+                  type: VARCHAR(255)
 
         - addForeignKeyConstraint:
             baseTableName: ticket_requests

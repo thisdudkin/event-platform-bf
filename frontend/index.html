@@ -4,45 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="styles.css"/>
+    <link rel="icon" href="assets/favicon.png" type="image/x-icon"/>
     <title>Event Platform</title>
 </head>
 <body>
 
-<!-- Events view (public) -->
+<nav class="navbar">
+    <div class="navbar-container">
+        <button id="home-btn" class="btn">Home</button>
+        <button id="view-requests-btn" class="btn">Requests</button>
+        <button id="admin-panel-btn" class="btn">Admin Panel</button>
+    </div>
+</nav>
+
 <div class="container" id="events-view">
     <h1>Upcoming Events</h1>
-    <button id="view-requests-btn">View Ticket Requests (Admin)</button>
-    <table id="events-table">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>Venue</th>
-        </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+    <div class="events-grid" id="events-grid"></div>
 </div>
 
-<!-- Login view (admin) -->
-<div class="container hidden" id="login-view">
-    <h1>Admin Login</h1>
+<div class="login-container hidden" id="login-view">
     <form id="login-form">
+        <h1>Admin Login</h1>
+
         <label for="username">Username</label>
-        <input type="text" id="username" required/>
+        <input type="text" id="username" autocomplete="username" required />
+
         <label for="password">Password</label>
-        <input type="password" id="password" required>
-        <button type="submit">Login</button>
+        <input type="password" id="password" autocomplete="current-password" required />
+
+        <button type="submit" class="btn">Login</button>
         <p class="error" id="login-error"></p>
     </form>
 </div>
 
-<!-- Requests view (admin) -->
 <div class="container hidden" id="requests-view">
     <h1>Ticket Requests</h1>
-    <button id="back-to-events">Back to Events</button>
+    <button id="back-to-events" class="btn">Back to Events</button>
     <table id="requests-table">
         <thead>
         <tr>
@@ -56,6 +53,73 @@
         </thead>
         <tbody></tbody>
     </table>
+</div>
+
+<div class="modal hidden" id="request-form-modal">
+    <div class="modal-content">
+        <h2>Оставить заявку</h2>
+        <form id="request-form">
+            <label for="requesterName">Имя</label>
+            <input type="text" id="requesterName" name="requesterName" required/>
+
+            <label for="requesterEmail">Email</label>
+            <input type="email" id="requesterEmail" name="requesterEmail" required/>
+
+            <label for="requesterPhone">Телефон</label>
+            <input type="tel" id="requesterPhone" name="requesterPhone" required/>
+
+            <label for="quantity">Количество билетов</label>
+            <input type="number" id="quantity" name="quantity" min="1" required/>
+
+            <label for="message">Сообщение</label>
+            <textarea id="message" name="message" rows="3"></textarea>
+
+            <div class="form-actions">
+                <button type="submit" class="btn">Отправить</button>
+                <button type="button" class="btn btn-secondary" id="close-form">Отмена</button>
+            </div>
+        </form>
+        <p class="error" id="form-error"></p>
+        <p class="success" id="form-success"></p>
+    </div>
+</div>
+
+<div class="container hidden" id="admin-panel-view">
+    <h1>Admin Panel</h1>
+    <button id="back-from-panel" class="btn">Back</button>
+    <section id="admin-controls">
+        <form id="event-form">
+            <input type="hidden" id="eventId"/>
+            <label>Title</label>
+            <input type="text" id="eventTitle" required/>
+            <label>Description</label>
+            <textarea id="eventDescription" required></textarea>
+            <label>Start Time</label>
+            <input type="datetime-local" id="eventStart" required/>
+            <label>End Time</label>
+            <input type="datetime-local" id="eventEnd" required/>
+            <label>Venue</label>
+            <input type="text" id="eventVenue"/>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-secondary" id="cancelEvent">Cancel</button>
+            </div>
+        </form>
+
+        <!-- Список существующих событий -->
+        <table id="admin-events-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
 </div>
 
 <script src="script.js" defer></script>

@@ -79,4 +79,12 @@ public class EventController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/events/requests/{id}/update-status")
+    public ResponseEntity<Void> updateStatus(
+            @PathVariable("id") Long requestId,
+            @RequestParam("status") String status) {
+        eventService.updateStatus(requestId, status);
+        return ResponseEntity.noContent().build();
+    }
+
 }

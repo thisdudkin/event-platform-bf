@@ -10,5 +10,6 @@ public record TicketRequestResponseDto(
         String requesterPhone,
         Integer quantity,
         String message,
-        LocalDateTime requestedAt
+        LocalDateTime requestedAt,
+        String status
 ) { }

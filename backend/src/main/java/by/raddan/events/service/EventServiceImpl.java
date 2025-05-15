@@ -101,4 +101,13 @@ public class EventServiceImpl implements EventService {
         ticketRequestRepository.deleteById(requestId);
     }
 
+    @Override
+    @Transactional
+    public void updateStatus(Long requestId, String status) {
+        TicketRequest request = ticketRequestRepository.findById(requestId)
+                .orElseThrow(() -> new EntityNotFoundException("Request not found with id " + requestId));
+        request.setStatus(status);
+        ticketRequestRepository.save(request);
+    }
+
 }
