@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.4.5</version>
+    </parent>
+
+    <groupId>by.raddan</groupId>
+    <artifactId>event-platform</artifactId>
+    <version>1.0</version>
+    <name>${project.artifactId}</name>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>backend</module>
+    </modules>
+
+    <properties>
+        <!-- Version can be modified later -->
+
+        <!-- Third-party libraries -->
+        <lombok.version>1.18.38</lombok.version>
+        <spring.boot.version>3.4.5</spring.boot.version>
+        <mapstruct.version>1.6.0</mapstruct.version>
+        <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+
+        <!-- Maven plugins -->
+        <java.version>21</java.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <openapi-generator-maven-plugin.version>7.8.0</openapi-generator-maven-plugin.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Lombok -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>${lombok-mapstruct-binding.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                    <compilerArgs>
+                        <arg>-Amapstruct.defaultComponentModel=spring</arg>
+                    </compilerArgs>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>springboot</id>
+            <activation>
+                <file>
+                    <!-- Just a way to identify a Spring Boot application -->
+                    <exists>src/main/resources/application.yaml</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>build-info</goal>
+                                </goals>
+                                <configuration>
+                                    <additionalProperties>
+                                        <encoding.source>${project.build.sourceEncoding}</encoding.source>
+                                        <encoding.reporting>${project.reporting.outputEncoding}</encoding.reporting>
+                                        <java.version>${java.version}</java.version>
+                                    </additionalProperties>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>enforce-java</id>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <requireJavaVersion>
+                                            <message>
+                                                🚫 Java version error: This project requires Java ${java.version} or higher.
+
+                                                Your current Java version is ${java.version}
+                                                To fix this:
+                                                1. Download and install Java 21 or higher from your preferred vendor
+                                                2. Make sure JAVA_HOME points to the new Java installation
+                                                3. Verify with 'java -version' command
+                                                4. Run the build again
+
+                                                For more information, check the project documentation.
+                                            </message>
+                                            <version>${java.version}</version>
+                                        </requireJavaVersion>
+                                    </rules>
+                                    <failFast>true</failFast>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

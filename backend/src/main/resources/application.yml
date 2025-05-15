@@ -1,0 +1,32 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name:       event-platform
+  datasource:
+    url:        jdbc:postgresql://localhost:5432/events_db
+    username:   postgres
+    password:   postgres
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 20
+      idle-timeout: 30000
+      pool-name: HikariCP
+      connection-test-query: SELECT 1
+      validation-timeout: 5000
+  jpa:
+    show-sql: true
+    generate-ddl: off
+    database: postgresql
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+logging:
+  level:
+    org.hibernate.type.descriptor.sql: TRACE
